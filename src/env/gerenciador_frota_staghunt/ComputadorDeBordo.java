@@ -33,9 +33,8 @@ public class ComputadorDeBordo extends Artifact {
 		}
 		
 		defineObsProperty("velocidade", velocidade);
-		ObsProperty obsProperty = getObsProperty("velocidade");
 
-		for(int i = 0; i < 199; i++){
+		/*for(int i = 0; i < 199; i++){
 			await_time(1000);
 			valorCooperar = random.nextInt(TETO_RANDOM_COOPERACAO);
 			
@@ -45,9 +44,7 @@ public class ComputadorDeBordo extends Artifact {
 				velocidade = random.nextInt(PISO_VELOCIDADE_INEFICIENTE);
 			}
 			obsProperty.updateValue(velocidade);
-		}
-		
-		signal("listar");
+		}*/
 	}
 }
 

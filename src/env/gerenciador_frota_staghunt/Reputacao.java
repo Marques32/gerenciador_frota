@@ -4,8 +4,12 @@ public class Reputacao {
 	private double reputacaoAnterior;
 	private double nivelIrresponsabilidade;
 	private double lembranca;
-	private double valor;
-
+	private int valor;
+	
+	public Reputacao(){
+		this.valor = 5;
+	}
+	
 	public double getReputacaoAnterior() {
 		return reputacaoAnterior;
 	}
@@ -30,11 +34,11 @@ public class Reputacao {
 		this.lembranca = lembranca;
 	}
 
-	public double getValor() {
+	public int getValor() {
 		return valor;
 	}
 	
-	public void atualizaValor(){
-		this.valor = (this.reputacaoAnterior*this.lembranca+this.nivelIrresponsabilidade*(2-this.lembranca))/2;
+	public void adicionarValor(int valor){
+		this.valor+=valor;
 	}
 }

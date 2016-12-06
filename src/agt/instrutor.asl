@@ -13,13 +13,13 @@
 					focus(C).
 					
 +!create_and_use : true <- inc[artifact_id(Id)].
-					
+
++!proximaRodada : true <- inc[artifact_id(Id)].
+
 +velocidade(X) : true <- .my_name(Me);
 						.send(reputa, achieve, atualiza(X,Me)).
 
-+listar : true <- .send(reputa, achieve, listar).
-
-//+velocidade(X) : X>100 <- .print(X).
+//+listar : true <- .send(reputa, achieve, listar).
 
 { include("$jacamoJar/templates/common-cartago.asl") }
 { include("$jacamoJar/templates/common-moise.asl") }

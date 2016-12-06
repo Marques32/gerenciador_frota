@@ -5,8 +5,8 @@ import java.util.Map;
 
 public class Grupo {
 	private final int id;
-	private final double reputacaoMaxima;
-	private final double reputacaoMinima;
+	private final int reputacaoMaxima;
+	private final int reputacaoMinima;
 	private Map<String,Condutor> condutores;
 	
 	public Grupo(int id, int reputacaoMinima, int reputacaoMaxima) {
@@ -20,11 +20,11 @@ public class Grupo {
 		return id;
 	}
 
-	public double getReputacaoMaxima() {
+	public int getReputacaoMaxima() {
 		return reputacaoMaxima;
 	}
 
-	public double getReputacaoMinima() {
+	public int getReputacaoMinima() {
 		return reputacaoMinima;
 	}
 	
@@ -45,8 +45,8 @@ public class Grupo {
 	}
 	
 	public boolean isPermitido(Reputacao reputacao){
-		double valorReputacao = Math.ceil(reputacao.getValor());
-				
+		int valorReputacao = reputacao.getValor();
+		
 		if(valorReputacao <= this.reputacaoMaxima && valorReputacao >= this.reputacaoMinima){
 			return true;
 		}
@@ -56,5 +56,14 @@ public class Grupo {
 
 	public void removeCondutor(String quem) {
 		this.condutores.remove(quem);
+	}
+
+	public boolean existeCooperacaoDeTodos() {
+		for (Map.Entry<String, Condutor> par : condutores.entrySet()) {
+			if(!par.getValue().isCooperou()){
+				return false;
+			}
+		}
+		return true;
 	}
 }

@@ -3,18 +3,25 @@
 package gerenciador_frota_staghunt;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import cartago.*;
 
 public class ArmazenadorReputacao extends Artifact {
-	private int VARIACAO_REPUTACAO_GRUPO = 20;
+	private int VARIACAO_REPUTACAO_GRUPO = 1;
 	private int QUANTIDADE_CONDUTOR_GRUPO = 20;
 	private int QUANTIDADE_GRUPO = 5;
 	private List<Grupo> grupos;
+	private int quantidadeMensagem;
+	private int quantidadeRodadas;
 	
 	void init() {
+		this.quantidadeMensagem = 0;
+		this.quantidadeRodadas = 0;
 		this.grupos = new ArrayList<Grupo>();
 		
 		int reputacaoInicial = 0;
@@ -26,7 +33,7 @@ public class ArmazenadorReputacao extends Artifact {
 			for (int j = 1; j <= QUANTIDADE_CONDUTOR_GRUPO; j++) {
 				
 				int numeroCondutor = j+(i-1)*QUANTIDADE_CONDUTOR_GRUPO;
-				grupo.adicionarCondutor("inst"+numeroCondutor, new Condutor());
+				grupo.adicionarCondutor("inst"+numeroCondutor, new Condutor("inst"+numeroCondutor));
 			}
 			
 			grupos.add(grupo);
@@ -52,63 +59,104 @@ public class ArmazenadorReputacao extends Artifact {
 		
 		double nivelIrresponsabilidade = 0;
 		
+		int valorReputacao = reputacao.getValor();
+		
 		if(valor>80){			
 			nivelIrresponsabilidade = 1.5*(valor-80);
 			condutor.adicionarLitroExcedido(nivelIrresponsabilidade*0.0066138);
-		}
-		
-		double similaridade = 1;
-		
-		double valorReputacaoAnterior = reputacao.getReputacaoAnterior();
-		double lembranca = reputacao.getLembranca();
-		
-		if(valorReputacaoAnterior != 0 || nivelIrresponsabilidade != 0){
-			if(nivelIrresponsabilidade > valorReputacaoAnterior){
-				similaridade = valorReputacaoAnterior/nivelIrresponsabilidade;
+			
+			if(valorReputacao < 9){
+				reputacao.adicionarValor(1);
 			}else{
-				similaridade = nivelIrresponsabilidade/valorReputacaoAnterior;
+				reputacao.adicionarValor(-1);
 			}
 			
-			lembranca = (lembranca+similaridade)/2;
+			condutor.setCooperou(false);
+		}else{
+			
+			if(valorReputacao > 0){
+				reputacao.adicionarValor(-1);
+			}else{
+				reputacao.adicionarValor(1);
+			}
+			
+			condutor.setCooperou(true);
 		}
 		
-		reputacao.setLembranca(lembranca);
-		reputacao.setReputacaoAnterior(reputacao.getValor());
-		reputacao.setNivelIrresponsabilidade(nivelIrresponsabilidade);
-		reputacao.atualizaValor();
+		quantidadeMensagem++;
 		
-		if(!grupoAtual.isPermitido(reputacao)){
-			grupoAtual.removeCondutor(quem);
+		int quantidadeCondutores = QUANTIDADE_GRUPO*QUANTIDADE_CONDUTOR_GRUPO;
+		
+		if(quantidadeCondutores == quantidadeMensagem){
 			
 			for (Grupo grupo : grupos) {
-				if(grupo.isPermitido(reputacao)){
-					grupo.adicionarCondutor(quem, condutor);
+				if(grupo.existeCooperacaoDeTodos()){
+					for (Map.Entry<String, Condutor> par : grupo.getCondutores().entrySet()) {
+						par.getValue().adicionarPontuacao(9);
+					}
+				}else{
+					for (Map.Entry<String, Condutor> par : grupo.getCondutores().entrySet()) {
+						Condutor cond = par.getValue();
+						if(cond.isCooperou()){
+							cond.adicionarPontuacao(0);
+						}else{
+							cond.adicionarPontuacao(7);
+						}
+					}
 				}
+			}
+			quantidadeRodadas++;
+			quantidadeMensagem = 0;
+			
+			if(quantidadeRodadas % 10 == 0){
+				for (Grupo grupo : grupos) {
+					
+					Map<String, Condutor> condutores = new HashMap<String, Condutor>(grupo.getCondutores());
+					for (Map.Entry<String, Condutor> par : condutores.entrySet()) {
+						Condutor condutor2 = par.getValue();
+						
+						double porcentagemDaPontuacaoAnterior = 1;
+						
+						if(condutor2.getPontuacaoAnterior() > 0){
+							porcentagemDaPontuacaoAnterior = condutor2.getPontuacao()/condutor2.getPontuacaoAnterior(); 
+						}
+						
+						condutor2.setPontuacaoAnterior(condutor2.getPontuacao());
+						condutor2.setPontuacao(0);
+						
+						if(porcentagemDaPontuacaoAnterior < 0.9){
+							if(!grupo.isPermitido(condutor2.getReputacao())){
+								grupo.removeCondutor(condutor2.getNome());
+								for (Grupo grupoNovo : grupos) {
+									if(grupoNovo.isPermitido(condutor2.getReputacao())){
+										grupoNovo.adicionarCondutor(condutor2.getNome(), condutor);
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			
+			if(quantidadeRodadas != 2000){
+				signal("proximaRodada");
 			}
 		}
 		
 	}
 	
-	@OPERATION
-	void listar(){
-		
+	
+	private void listar(){
 		for (Grupo grupo : grupos) {
 			System.out.println("grupo "+grupo.getReputacaoMinima()+"-"+grupo.getReputacaoMaxima());
 			
-			double litrosTotalExcedidos = 0;
-			double valorReputacaoTotal = 0;
 			Map<String, Condutor> condutores = grupo.getCondutores();
-			int quantidadeCondutores = condutores.size();
-			
+				
 			for ( Map.Entry<String, Condutor> par : condutores.entrySet()) {
-				valorReputacaoTotal+=par.getValue().getReputacao().getValor();
-				litrosTotalExcedidos+=par.getValue().getLitroExcedido(); 	
+				System.out.println("Reputação: "+par.getValue().getReputacao().getValor());
+				System.out.println("Gasto: "+par.getValue().getLitroExcedido()); 
+				System.out.println("Pontuação: "+par.getValue().getPontuacao());
 			}
-			
-			System.out.println("Total gasto: "+litrosTotalExcedidos);
-			System.out.println("Média de gasto condutor: "+(litrosTotalExcedidos/quantidadeCondutores));
-			System.out.println("Total Reputação: "+valorReputacaoTotal);
-			System.out.println("Média reputacao condutor: "+(valorReputacaoTotal/quantidadeCondutores));
 		}
 	}
 }

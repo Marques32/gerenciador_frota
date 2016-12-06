@@ -13,6 +13,8 @@
 
 +!listar : true <-listar.
 
++proximaRodada : true <-.broadcast(achieve, proximaRodada).
+
 { include("$jacamoJar/templates/common-cartago.asl") }
 { include("$jacamoJar/templates/common-moise.asl") }
 
