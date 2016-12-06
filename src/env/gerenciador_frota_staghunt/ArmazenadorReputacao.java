@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.JFrame;
+
 import cartago.*;
 
 public class ArmazenadorReputacao extends Artifact {
@@ -18,8 +20,9 @@ public class ArmazenadorReputacao extends Artifact {
 	private List<Grupo> grupos;
 	private int quantidadeMensagem;
 	private int quantidadeRodadas;
-	
+	private MultiploDataset multiploDataset;
 	void init() {
+		multiploDataset = new MultiploDataset(); 
 		this.quantidadeMensagem = 0;
 		this.quantidadeRodadas = 0;
 		this.grupos = new ArrayList<Grupo>();
@@ -135,29 +138,27 @@ public class ArmazenadorReputacao extends Artifact {
 							}
 						}
 					}
-				}
+					multiploDataset.adicionar("rTag "+grupo.getReputacaoMinima()+"-"+grupo.getReputacaoMaxima(), grupo.getCondutores().size(), quantidadeRodadas/10);
+				} 
 			}
 			
 			if(quantidadeRodadas != 2000){
 				signal("proximaRodada");
+			}else{
+				exibirGrafico(multiploDataset);
 			}
 		}
 		
 	}
 	
 	
-	private void listar(){
-		for (Grupo grupo : grupos) {
-			System.out.println("grupo "+grupo.getReputacaoMinima()+"-"+grupo.getReputacaoMaxima());
-			
-			Map<String, Condutor> condutores = grupo.getCondutores();
-				
-			for ( Map.Entry<String, Condutor> par : condutores.entrySet()) {
-				System.out.println("Reputação: "+par.getValue().getReputacao().getValor());
-				System.out.println("Gasto: "+par.getValue().getLitroExcedido()); 
-				System.out.println("Pontuação: "+par.getValue().getPontuacao());
-			}
-		}
+	private void exibirGrafico(MultiploDataset multiploDataset){
+		JFrame frame = new JFrame("Minha Janela");
+		frame.add(multiploDataset.getPanel());
+		
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.pack();
+		frame.setVisible(true);
 	}
 }
 
