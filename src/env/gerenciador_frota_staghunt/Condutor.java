@@ -7,10 +7,24 @@ public class Condutor {
 	private Reputacao reputacao;
 	private int pontuacao;
 	private int pontuacaoAnterior;
+	private int coopIndex;
 	
 	public Condutor(String nome) {
+		this.coopIndex = 0;
 		this.nome = nome;
 		this.reputacao = new Reputacao();
+	}
+	
+	public void resetaCoopIndex(){
+		this.coopIndex = 0;
+	}
+	
+	public int getCoopIndex() {
+		return coopIndex;
+	}
+	
+	public void adicionarCoopIndex(int valor){
+		this.coopIndex+=valor;
 	}
 	
 	public String getNome(){

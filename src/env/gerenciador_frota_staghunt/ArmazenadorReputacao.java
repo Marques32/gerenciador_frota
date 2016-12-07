@@ -21,6 +21,7 @@ public class ArmazenadorReputacao extends Artifact {
 	private int quantidadeMensagem;
 	private int quantidadeRodadas;
 	private MultiploDataset multiploDataset;
+	
 	void init() {
 		multiploDataset = new MultiploDataset(); 
 		this.quantidadeMensagem = 0;
@@ -36,7 +37,8 @@ public class ArmazenadorReputacao extends Artifact {
 			for (int j = 1; j <= QUANTIDADE_CONDUTOR_GRUPO; j++) {
 				
 				int numeroCondutor = j+(i-1)*QUANTIDADE_CONDUTOR_GRUPO;
-				grupo.adicionarCondutor("inst"+numeroCondutor, new Condutor("inst"+numeroCondutor));
+				String nomeCondutor = "inst"+numeroCondutor;
+				grupo.adicionarCondutor(nomeCondutor, new Condutor(nomeCondutor));
 			}
 			
 			grupos.add(grupo);
@@ -56,8 +58,9 @@ public class ArmazenadorReputacao extends Artifact {
 				break;
 			}
 		}
-		
+	
 		Condutor condutor = grupoAtual.buscaContudor(quem);
+		
 		Reputacao reputacao = condutor.getReputacao();
 		
 		double nivelIrresponsabilidade = 0;
@@ -68,21 +71,25 @@ public class ArmazenadorReputacao extends Artifact {
 			nivelIrresponsabilidade = 1.5*(valor-80);
 			condutor.adicionarLitroExcedido(nivelIrresponsabilidade*0.0066138);
 			
-			if(valorReputacao < 9){
-				reputacao.adicionarValor(1);
-			}else{
-				reputacao.adicionarValor(-1);
+			condutor.adicionarCoopIndex(1);
+			
+			if(condutor.getCoopIndex() == 5){
+				if(valorReputacao > 0){
+					reputacao.adicionarValor(-1);
+				}
+				condutor.resetaCoopIndex();
 			}
 			
 			condutor.setCooperou(false);
 		}else{
+			condutor.adicionarCoopIndex(-1);
 			
-			if(valorReputacao > 0){
-				reputacao.adicionarValor(-1);
-			}else{
-				reputacao.adicionarValor(1);
+			if(condutor.getCoopIndex() == -5){
+				if(valorReputacao < 9 ){
+					reputacao.adicionarValor(1);
+				}
+				condutor.resetaCoopIndex();
 			}
-			
 			condutor.setCooperou(true);
 		}
 		
@@ -130,9 +137,11 @@ public class ArmazenadorReputacao extends Artifact {
 						if(porcentagemDaPontuacaoAnterior < 0.9){
 							if(!grupo.isPermitido(condutor2.getReputacao())){
 								grupo.removeCondutor(condutor2.getNome());
+							
 								for (Grupo grupoNovo : grupos) {
 									if(grupoNovo.isPermitido(condutor2.getReputacao())){
-										grupoNovo.adicionarCondutor(condutor2.getNome(), condutor);
+										grupoNovo.adicionarCondutor(condutor2.getNome(), condutor2);
+										break;
 									}
 								}
 							}
@@ -146,6 +155,15 @@ public class ArmazenadorReputacao extends Artifact {
 				signal("proximaRodada");
 			}else{
 				exibirGrafico(multiploDataset);
+				for (Grupo grupo : grupos) {
+					double totalGasto = 0;
+					for (Map.Entry<String, Condutor> par : grupo.getCondutores().entrySet()) {
+						Condutor cond = par.getValue();
+						totalGasto+=cond.getLitroExcedido();
+					}
+					System.out.println("grupo rTag: "+grupo.getReputacaoMinima()+"-"+grupo.getReputacaoMaxima());
+					System.out.println("Total de gasto: "+totalGasto);
+				}
 			}
 		}
 		
