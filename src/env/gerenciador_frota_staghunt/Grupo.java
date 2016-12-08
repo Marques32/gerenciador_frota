@@ -66,4 +66,38 @@ public class Grupo {
 		}
 		return true;
 	}
+
+	public Condutor buscaMaiorGastador() {
+		Condutor cond = new Condutor("vazio");
+		
+		for (Map.Entry<String, Condutor> par : condutores.entrySet()) {
+			Condutor condAux = par.getValue();
+			if(cond != null){
+				if(condAux.getLitroExcedido() > cond.getLitroExcedido()){
+					cond = condAux;
+				}
+			}else{
+				cond = condAux;
+			}
+		}
+		
+		return cond;
+	}
+	
+	public Condutor buscaMenorGastador() {
+		Condutor cond = new Condutor("vazio");
+		
+		for (Map.Entry<String, Condutor> par : condutores.entrySet()) {
+			Condutor condAux = par.getValue();
+			if(cond != null){
+				if(condAux.getLitroExcedido() < cond.getLitroExcedido()){
+					cond = condAux;
+				}
+			}else{
+				cond = condAux;
+			}
+		}
+		
+		return cond;
+	}
 }

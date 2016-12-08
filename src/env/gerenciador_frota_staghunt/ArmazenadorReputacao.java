@@ -157,12 +157,19 @@ public class ArmazenadorReputacao extends Artifact {
 				exibirGrafico(multiploDataset);
 				for (Grupo grupo : grupos) {
 					double totalGasto = 0;
-					for (Map.Entry<String, Condutor> par : grupo.getCondutores().entrySet()) {
+					Map<String, Condutor> condutores = grupo.getCondutores();
+					int numeroCondutores = condutores.size();
+					for (Map.Entry<String, Condutor> par : condutores.entrySet()) {
 						Condutor cond = par.getValue();
 						totalGasto+=cond.getLitroExcedido();
 					}
 					System.out.println("grupo rTag: "+grupo.getReputacaoMinima()+"-"+grupo.getReputacaoMaxima());
 					System.out.println("Total de gasto: "+totalGasto);
+					System.out.println("Média de gasto: "+(totalGasto/numeroCondutores));
+					Condutor condGast = grupo.buscaMaiorGastador();
+					System.out.println("Maior gastador "+condGast.getNome()+": "+condGast.getLitroExcedido());
+					Condutor condGas = grupo.buscaMenorGastador();
+					System.out.println("Menor gastador "+condGas.getNome()+": "+condGas.getLitroExcedido());
 				}
 			}
 		}
