@@ -12,8 +12,8 @@ public class ComputadorDeBordo extends Artifact {
 	private int fatorDeCooperacao;
 	private Random random;
 	private static int PISO_VELOCIDADE_INEFICIENTE = 81;
-	private static int TETO_RANDOM_VELOCIDADE = 66;
-	private static int TETO_RANDOM_COOPERACAO = 101; 
+	private static int TETO_RANDOM_VELOCIDADE = 40;
+	private static int TETO_RANDOM_COOPERACAO = 101;
 	
 	void init() {
 		random = new Random();
@@ -33,18 +33,19 @@ public class ComputadorDeBordo extends Artifact {
 		}
 		
 		defineObsProperty("velocidade", velocidade);
-
-		/*for(int i = 0; i < 199; i++){
+		ObsProperty obsProperty = getObsProperty("velocidade");
+		
+		for(int i = 0; i < 479; i++){
 			await_time(1000);
 			valorCooperar = random.nextInt(TETO_RANDOM_COOPERACAO);
-			
+					
 			if(valorCooperar >= fatorDeCooperacao){
 				velocidade = random.nextInt(TETO_RANDOM_VELOCIDADE)+PISO_VELOCIDADE_INEFICIENTE;
 			}else{
 				velocidade = random.nextInt(PISO_VELOCIDADE_INEFICIENTE);
 			}
 			obsProperty.updateValue(velocidade);
-		}*/
+		}
 	}
 }
 

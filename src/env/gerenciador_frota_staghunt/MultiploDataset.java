@@ -15,10 +15,10 @@ public class MultiploDataset {
 	
 	public MultiploDataset() {
 		this.dados = new DefaultCategoryDataset();
-		this.grafico = ChartFactory.createLineChart("Condução", "iterações", "população", dados, PlotOrientation.VERTICAL, true, true, false);
+		this.grafico = ChartFactory.createBarChart("Grupos de reputação", "reputação do grupo", "quantidade de condutores", dados, PlotOrientation.VERTICAL, true, true, false);
 	}
 	
-	public void adicionar(String grupo, Integer valor, Integer rodada){
+	public void adicionar(String grupo, Integer valor, String rodada){
 		dados.addValue(valor,grupo,rodada);
 	}
 	

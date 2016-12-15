@@ -18,13 +18,13 @@ public class ArmazenadorReputacao extends Artifact {
 	private int QUANTIDADE_CONDUTOR_GRUPO = 20;
 	private int QUANTIDADE_GRUPO = 5;
 	private List<Grupo> grupos;
-	private int quantidadeMensagem;
+	private int quantidadeMensagens;
 	private int quantidadeRodadas;
 	private MultiploDataset multiploDataset;
 	
 	void init() {
 		multiploDataset = new MultiploDataset(); 
-		this.quantidadeMensagem = 0;
+		this.quantidadeMensagens = 0;
 		this.quantidadeRodadas = 0;
 		this.grupos = new ArrayList<Grupo>();
 		
@@ -68,8 +68,8 @@ public class ArmazenadorReputacao extends Artifact {
 		int valorReputacao = reputacao.getValor();
 		
 		if(valor>80){			
-			nivelIrresponsabilidade = 1.5*(valor-80);
-			condutor.adicionarLitroExcedido(nivelIrresponsabilidade*0.0066138);
+			nivelIrresponsabilidade = 0.015*(valor-80);
+			condutor.adicionarLitroExcedido(nivelIrresponsabilidade*0.0746667);
 			
 			condutor.adicionarCoopIndex(1);
 			
@@ -82,7 +82,7 @@ public class ArmazenadorReputacao extends Artifact {
 			
 			condutor.setCooperou(false);
 		}else{
-			condutor.adicionarCoopIndex(-1);
+			condutor.adicionarCoopIndex(-1);	
 			
 			if(condutor.getCoopIndex() == -5){
 				if(valorReputacao < 9 ){
@@ -93,48 +93,16 @@ public class ArmazenadorReputacao extends Artifact {
 			condutor.setCooperou(true);
 		}
 		
-		quantidadeMensagem++;
+		quantidadeMensagens++;
 		
-		int quantidadeCondutores = QUANTIDADE_GRUPO*QUANTIDADE_CONDUTOR_GRUPO;
+		int quantidadeCondutores = QUANTIDADE_GRUPO*QUANTIDADE_CONDUTOR_GRUPO*480;
 		
-		if(quantidadeCondutores == quantidadeMensagem){
-			
-			for (Grupo grupo : grupos) {
-				if(grupo.existeCooperacaoDeTodos()){
-					for (Map.Entry<String, Condutor> par : grupo.getCondutores().entrySet()) {
-						par.getValue().adicionarPontuacao(9);
-					}
-				}else{
-					for (Map.Entry<String, Condutor> par : grupo.getCondutores().entrySet()) {
-						Condutor cond = par.getValue();
-						if(cond.isCooperou()){
-							cond.adicionarPontuacao(0);
-						}else{
-							cond.adicionarPontuacao(7);
-						}
-					}
-				}
-			}
-			quantidadeRodadas++;
-			quantidadeMensagem = 0;
-			
-			if(quantidadeRodadas % 10 == 0){
 				for (Grupo grupo : grupos) {
 					
 					Map<String, Condutor> condutores = new HashMap<String, Condutor>(grupo.getCondutores());
 					for (Map.Entry<String, Condutor> par : condutores.entrySet()) {
 						Condutor condutor2 = par.getValue();
 						
-						double porcentagemDaPontuacaoAnterior = 1;
-						
-						if(condutor2.getPontuacaoAnterior() > 0){
-							porcentagemDaPontuacaoAnterior = condutor2.getPontuacao()/condutor2.getPontuacaoAnterior(); 
-						}
-						
-						condutor2.setPontuacaoAnterior(condutor2.getPontuacao());
-						condutor2.setPontuacao(0);
-						
-						if(porcentagemDaPontuacaoAnterior < 0.9){
 							if(!grupo.isPermitido(condutor2.getReputacao())){
 								grupo.removeCondutor(condutor2.getNome());
 							
@@ -145,16 +113,11 @@ public class ArmazenadorReputacao extends Artifact {
 									}
 								}
 							}
-						}
 					}
-					multiploDataset.adicionar("rTag "+grupo.getReputacaoMinima()+"-"+grupo.getReputacaoMaxima(), grupo.getCondutores().size(), quantidadeRodadas/10);
+	
 				} 
-			}
 			
-			if(quantidadeRodadas != 2000){
-				signal("proximaRodada");
-			}else{
-				exibirGrafico(multiploDataset);
+		if(quantidadeCondutores == quantidadeMensagens){
 				for (Grupo grupo : grupos) {
 					double totalGasto = 0;
 					Map<String, Condutor> condutores = grupo.getCondutores();
@@ -163,15 +126,18 @@ public class ArmazenadorReputacao extends Artifact {
 						Condutor cond = par.getValue();
 						totalGasto+=cond.getLitroExcedido();
 					}
+					multiploDataset.adicionar("reputação", grupo.getCondutores().size(),grupo.getReputacaoMinima()+"-"+grupo.getReputacaoMaxima());
 					System.out.println("grupo rTag: "+grupo.getReputacaoMinima()+"-"+grupo.getReputacaoMaxima());
 					System.out.println("Total de gasto: "+totalGasto);
 					System.out.println("Média de gasto: "+(totalGasto/numeroCondutores));
 					Condutor condGast = grupo.buscaMaiorGastador();
 					System.out.println("Maior gastador "+condGast.getNome()+": "+condGast.getLitroExcedido());
 					Condutor condGas = grupo.buscaMenorGastador();
-					System.out.println("Menor gastador "+condGas.getNome()+": "+condGas.getLitroExcedido());
+					if(condGas != null){	
+						System.out.println("Menor gastador "+condGas.getNome()+": "+condGas.getLitroExcedido());
+					}
 				}
-			}
+				exibirGrafico(multiploDataset);
 		}
 		
 	}

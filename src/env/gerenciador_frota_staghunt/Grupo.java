@@ -85,7 +85,7 @@ public class Grupo {
 	}
 	
 	public Condutor buscaMenorGastador() {
-		Condutor cond = new Condutor("vazio");
+		Condutor cond = null;
 		
 		for (Map.Entry<String, Condutor> par : condutores.entrySet()) {
 			Condutor condAux = par.getValue();
