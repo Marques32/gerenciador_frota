@@ -8,12 +8,12 @@
 /* Plans */
 +!criar_armazenador_reputacao <- makeArtifact("arm_reputacao", "gerenciador_frota_staghunt.ArmazenadorReputacao",[],A);
 								focus(A).
+								
++!coloca_ct(Ct,Q) : true <- coloca_ct(Ct,Q).
 
-+!atualiza(Valor, Quem) : true <- atualiza(Valor,Quem).
++!atualiza(Valor, Quem) : Valor > 80 <- punir(Valor, Quem).
 
-+!listar : true <-listar.
-
-+proximaRodada : true <-.broadcast(achieve, proximaRodada).
++!atualiza(Valor, Quem) : Valor <= 80 <- recompensar(Valor, Quem).
 
 { include("$jacamoJar/templates/common-cartago.asl") }
 { include("$jacamoJar/templates/common-moise.asl") }

@@ -11,7 +11,6 @@
 mas gerenciador_frota_staghunt {
 
    	agent init : user.asl
-	agent julga : julgador.asl
 	agent reputa : reputacao.asl
 	agent inst : instrutor.asl{
 		instances : 100
@@ -19,8 +18,7 @@ mas gerenciador_frota_staghunt {
 		    
     organisation tes : conducao.xml{
 		group grupConducao : grupoConducao{
-			players:init user, 
-					julga julgador,
+			players:init user
 					reputa reputacao,
 					inst instrutor
 

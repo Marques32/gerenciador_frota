@@ -100,4 +100,18 @@ public class Grupo {
 		
 		return cond;
 	}
+
+	public int buscaCondutorCtMaiorQue(int valor) {
+		int ctMaior = 0;
+		
+		for (Map.Entry<String, Condutor> par : condutores.entrySet()) {
+			Condutor cond = par.getValue();
+			
+			if(cond.getCt() > valor){
+				ctMaior++;
+			}
+		}
+		
+		return ctMaior;
+	}
 }

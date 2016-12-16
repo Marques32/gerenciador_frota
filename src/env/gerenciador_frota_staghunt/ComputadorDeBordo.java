@@ -19,7 +19,12 @@ public class ComputadorDeBordo extends Artifact {
 		random = new Random();
 		fatorDeCooperacao = random.nextInt(TETO_RANDOM_COOPERACAO);
 	}
-
+	
+	@OPERATION
+	void envia_ct(){
+		defineObsProperty("cooperacao", fatorDeCooperacao);
+	}
+	
 	@OPERATION
 	void inc() {
 		int velocidade;
@@ -35,7 +40,7 @@ public class ComputadorDeBordo extends Artifact {
 		defineObsProperty("velocidade", velocidade);
 		ObsProperty obsProperty = getObsProperty("velocidade");
 		
-		for(int i = 0; i < 479; i++){
+		for(int i = 0; i < 1439; i++){
 			await_time(1000);
 			valorCooperar = random.nextInt(TETO_RANDOM_COOPERACAO);
 					

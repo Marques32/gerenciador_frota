@@ -12,14 +12,15 @@
 					makeArtifact(ArtName, "gerenciador_frota_staghunt.ComputadorDeBordo",[],C);
 					focus(C).
 					
++!envia_ct : true <- envia_ct[artifact_id(Id)].
+
 +!create_and_use : true <- inc[artifact_id(Id)].
 
-+!proximaRodada : true <- inc[artifact_id(Id)].
++cooperacao(Ct) : true <- .my_name(Me);
+						.send(reputa, achieve, coloca_ct(Ct,Me)).
 
 +velocidade(X) : true <- .my_name(Me);
 						.send(reputa, achieve, atualiza(X,Me)).
-
-//+listar : true <- .send(reputa, achieve, listar).
 
 { include("$jacamoJar/templates/common-cartago.asl") }
 { include("$jacamoJar/templates/common-moise.asl") }
