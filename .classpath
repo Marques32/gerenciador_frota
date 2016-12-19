@@ -6,8 +6,5 @@
 	<classpathentry excluding="*.xml" kind="src" path="src/org"/>
 	<classpathentry kind="src" path="src/env"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JaCaMo"/>
-	<classpathentry kind="lib" path="lib/jcommon-1.0.23.jar"/>
-	<classpathentry kind="lib" path="lib/jfreechart-1.0.19-experimental.jar"/>
-	<classpathentry kind="lib" path="lib/jfreechart-1.0.19.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

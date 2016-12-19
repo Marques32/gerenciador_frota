@@ -6,7 +6,7 @@
 !criar_armazenador_reputacao.
 
 /* Plans */
-+!criar_armazenador_reputacao <- makeArtifact("arm_reputacao", "gerenciador_frota_staghunt.ArmazenadorReputacao",[],A);
++!criar_armazenador_reputacao <- makeArtifact("arm_reputacao", "gerenciador_frota_staghunt.SistemaDeSancao",[],A);
 								focus(A).
 								
 +!coloca_ct(Ct,Q) : true <- coloca_ct(Ct,Q).

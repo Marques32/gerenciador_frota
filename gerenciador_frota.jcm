@@ -8,19 +8,19 @@
 
 */
 
-mas gerenciador_frota_staghunt {
+mas gerenciador_frota {
 
    	agent init : user.asl
-	agent reputa : reputacao.asl
-	agent inst : instrutor.asl{
+	agent juiz : juiz.asl
+	agent mo : monitor.asl{
 		instances : 100
 	}
 		    
     organisation tes : conducao.xml{
 		group grupConducao : grupoConducao{
 			players:init user
-					reputa reputacao,
-					inst instrutor
+					juiz juiz,
+					mo monitor
 
 			debug
 		}   	

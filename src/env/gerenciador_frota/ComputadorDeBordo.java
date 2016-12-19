@@ -1,6 +1,6 @@
 // CArtAgO artifact code for project gerenciador_frota
 
-package gerenciador_frota_staghunt;
+package gerenciador_frota;
 
 import java.util.Random;
 
@@ -40,7 +40,7 @@ public class ComputadorDeBordo extends Artifact {
 		defineObsProperty("velocidade", velocidade);
 		ObsProperty obsProperty = getObsProperty("velocidade");
 		
-		for(int i = 0; i < 1439; i++){
+		for(int i = 0; i < 0; i++){
 			await_time(1000);
 			valorCooperar = random.nextInt(TETO_RANDOM_COOPERACAO);
 					

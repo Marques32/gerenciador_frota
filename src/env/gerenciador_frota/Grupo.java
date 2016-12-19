@@ -1,4 +1,4 @@
-package gerenciador_frota_staghunt;
+package gerenciador_frota;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,4 +1,4 @@
-package gerenciador_frota_staghunt;
+package gerenciador_frota;
 
 public class Condutor {
 	private String nome;

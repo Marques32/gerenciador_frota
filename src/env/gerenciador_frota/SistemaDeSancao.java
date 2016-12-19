@@ -1,6 +1,6 @@
 // CArtAgO artifact code for project gerenciador_frota
 
-package gerenciador_frota_staghunt;
+package gerenciador_frota;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -13,20 +13,18 @@ import javax.swing.JFrame;
 
 import cartago.*;
 
-public class ArmazenadorReputacao extends Artifact {
+public class SistemaDeSancao extends Artifact {
 	private int VARIACAO_REPUTACAO_GRUPO = 1;
 	private int QUANTIDADE_CONDUTOR_GRUPO = 20;
 	private int QUANTIDADE_GRUPO = 5;
 	private List<Grupo> grupos;
 	private int quantidadeMensagens;
-	private int quantidadeRodadas;
 	private int QUANTIDADE_MEDICOES;
 
 	void init() {
 		this.quantidadeMensagens = 0;
-		this.quantidadeRodadas = 0;
 		this.grupos = new ArrayList<Grupo>();
-		this.QUANTIDADE_MEDICOES = QUANTIDADE_CONDUTOR_GRUPO * QUANTIDADE_GRUPO * 1440;
+		this.QUANTIDADE_MEDICOES = QUANTIDADE_CONDUTOR_GRUPO * QUANTIDADE_GRUPO * 1;
 
 		int reputacaoInicial = 0;
 
@@ -37,7 +35,7 @@ public class ArmazenadorReputacao extends Artifact {
 			for (int j = 1; j <= QUANTIDADE_CONDUTOR_GRUPO; j++) {
 
 				int numeroCondutor = j + (i - 1) * QUANTIDADE_CONDUTOR_GRUPO;
-				String nomeCondutor = "inst" + numeroCondutor;
+				String nomeCondutor = "mo" + numeroCondutor;
 				grupo.adicionarCondutor(nomeCondutor, new Condutor(nomeCondutor));
 			}
 

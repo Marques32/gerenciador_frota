@@ -17,10 +17,10 @@
 +!create_and_use : true <- inc[artifact_id(Id)].
 
 +cooperacao(Ct) : true <- .my_name(Me);
-						.send(reputa, achieve, coloca_ct(Ct,Me)).
+						.send(juiz, achieve, coloca_ct(Ct,Me)).
 
 +velocidade(X) : true <- .my_name(Me);
-						.send(reputa, achieve, atualiza(X,Me)).
+						.send(juiz, achieve, atualiza(X,Me)).
 
 { include("$jacamoJar/templates/common-cartago.asl") }
 { include("$jacamoJar/templates/common-moise.asl") }

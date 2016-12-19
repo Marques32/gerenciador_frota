@@ -15,15 +15,15 @@
 
 <role-definitions>
     <role id="user"/>
-    <role id="reputacao" />
-    <role id="instrutor" />
+    <role id="juiz" />
+    <role id="monitor" />
 </role-definitions>
 
 <group-specification id="grupoConducao">
     <roles>
         <role id="user" min="1" max="1"/>
-        <role id="reputacao" min="1" max="1"/>
-        <role id="instrutor" min="100" max="100"/>
+        <role id="juiz" min="1" max="1"/>
+        <role id="monitor" min="100" max="100"/>
     </roles>
  
     <!-- <links>
@@ -54,7 +54,7 @@
 </functional-specification>
 
 <normative-specification>
-	<norm id="norm2" type="obligation" role="instrutor" mission="obs"/>
+	<norm id="norm2" type="obligation" role="monitor" mission="obs"/>
 </normative-specification>
 
 </organisational-specification>
