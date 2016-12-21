@@ -1,18 +1,16 @@
 package gerenciador_frota;
 
 public class Condutor {
-	private String nome;
+	private String nomeMonitor;
 	private boolean cooperou;
 	private double litroExcedido;
 	private Reputacao reputacao;
-	private int pontuacao;
-	private int pontuacaoAnterior;
 	private int coopIndex;
 	private int ct;
 	
 	public Condutor(String nome) {
 		this.coopIndex = 0;
-		this.nome = nome;
+		this.nomeMonitor = nome;
 		this.reputacao = new Reputacao();
 	}
 	
@@ -37,27 +35,7 @@ public class Condutor {
 	}
 	
 	public String getNome(){
-		return this.nome;
-	}
-	
-	public int getPontuacaoAnterior() {
-		return pontuacaoAnterior;
-	}
-
-	public void setPontuacaoAnterior(int pontuacaoAnterior) {
-		this.pontuacaoAnterior = pontuacaoAnterior;
-	}
-
-	public int getPontuacao() {
-		return pontuacao;
-	}
-	
-	public void setPontuacao(int pontuacao){
-		this.pontuacao = pontuacao;
-	}
-	
-	public void adicionarPontuacao(int pontos){
-		this.pontuacao+=pontos;
+		return this.nomeMonitor;
 	}
 	
 	public boolean isCooperou() {

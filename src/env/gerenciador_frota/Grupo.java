@@ -32,16 +32,16 @@ public class Grupo {
 		return this.condutores;
 	}
 	
-	public void adicionarCondutor(String nome, Condutor condutor){
-		this.condutores.put(nome, condutor);
+	public void adicionarCondutor(String nomeMonitor, Condutor condutor){
+		this.condutores.put(nomeMonitor, condutor);
 	}
 
 	public boolean contem(String condutor) {
 		return this.condutores.containsKey(condutor);
 	}
 
-	public Condutor buscaContudor(String condutor) {
-		return this.condutores.get(condutor);
+	public Condutor buscaContudor(String nomeMonitor) {
+		return this.condutores.get(nomeMonitor);
 	}
 	
 	public boolean isPermitido(Reputacao reputacao){
@@ -54,54 +54,11 @@ public class Grupo {
 		return false;
 	}
 
-	public void removeCondutor(String quem) {
-		this.condutores.remove(quem);
+	public void removeCondutor(String nomeMonitor) {
+		this.condutores.remove(nomeMonitor);
 	}
 
-	public boolean existeCooperacaoDeTodos() {
-		for (Map.Entry<String, Condutor> par : condutores.entrySet()) {
-			if(!par.getValue().isCooperou()){
-				return false;
-			}
-		}
-		return true;
-	}
-
-	public Condutor buscaMaiorGastador() {
-		Condutor cond = new Condutor("vazio");
-		
-		for (Map.Entry<String, Condutor> par : condutores.entrySet()) {
-			Condutor condAux = par.getValue();
-			if(cond != null){
-				if(condAux.getLitroExcedido() > cond.getLitroExcedido()){
-					cond = condAux;
-				}
-			}else{
-				cond = condAux;
-			}
-		}
-		
-		return cond;
-	}
-	
-	public Condutor buscaMenorGastador() {
-		Condutor cond = null;
-		
-		for (Map.Entry<String, Condutor> par : condutores.entrySet()) {
-			Condutor condAux = par.getValue();
-			if(cond != null){
-				if(condAux.getLitroExcedido() < cond.getLitroExcedido()){
-					cond = condAux;
-				}
-			}else{
-				cond = condAux;
-			}
-		}
-		
-		return cond;
-	}
-
-	public int buscaCondutorCtMaiorQue(int valor) {
+	public int quantidadeCondutoresCtMaiorQue(int valor) {
 		int ctMaior = 0;
 		
 		for (Map.Entry<String, Condutor> par : condutores.entrySet()) {

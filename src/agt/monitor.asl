@@ -14,7 +14,7 @@
 					
 +!envia_ct : true <- envia_ct[artifact_id(Id)].
 
-+!create_and_use : true <- inc[artifact_id(Id)].
++!inicializa : true <- inc[artifact_id(Id)].
 
 +cooperacao(Ct) : true <- .my_name(Me);
 						.send(juiz, achieve, coloca_ct(Ct,Me)).

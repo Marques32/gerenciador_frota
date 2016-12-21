@@ -167,7 +167,7 @@ public class SistemaDeSancao extends Artifact {
 
 			System.out.println("grupo reputação: " + grupo.getReputacaoMinima() + "-" + grupo.getReputacaoMaxima());
 			System.out.println("Média de gasto: " + (totalGasto / numeroCondutores));
-			System.out.println("Quantidade Condutores Ct maior que 50: " + grupo.buscaCondutorCtMaiorQue(50));
+			System.out.println("Quantidade Condutores Ct maior que 50: " + grupo.quantidadeCondutoresCtMaiorQue(50));
 			System.out.println("Numero de condutores: " + numeroCondutores);
 
 		}

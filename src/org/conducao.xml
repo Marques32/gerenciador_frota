@@ -35,13 +35,13 @@
             <plan operator="sequence">
             	<goal id="observe" ttf="10 minutes"></goal>
             	<goal id="envia_ct" ttf="10 minutes"></goal>
-            	<goal id="create_and_use" ttf="10 minutes"></goal>
+            	<goal id="inicializa" ttf="10 minutes"></goal>
             </plan>
         </goal>
         <mission id="obs" min="100" max="100">
         	<goal id="observe"/>
         	<goal id="envia_ct"/>
-            <goal id="create_and_use"></goal>
+            <goal id="inicializa"></goal>
         </mission>
     </scheme>
 </functional-specification>
