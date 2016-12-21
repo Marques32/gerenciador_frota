@@ -10,7 +10,7 @@
 
 mas gerenciador_frota {
 
-   	agent init : user.asl
+   	agent init : inicializador.asl
 	agent juiz : juiz.asl
 	agent mo : monitor.asl{
 		instances : 100
@@ -18,7 +18,7 @@ mas gerenciador_frota {
 		    
     organisation tes : conducao.xml{
 		group grupConducao : grupoConducao{
-			players:init user
+			players:init inicializador
 					juiz juiz,
 					mo monitor
 
