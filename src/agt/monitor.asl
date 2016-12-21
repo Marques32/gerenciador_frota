@@ -9,7 +9,7 @@
 
 +!observe : true <- .my_name(Me);
 					.concat("Artecfat_", Me, ArtName);
-					makeArtifact(ArtName, "gerenciador_frota_staghunt.ComputadorDeBordo",[],C);
+					makeArtifact(ArtName, "gerenciador_frota.ComputadorDeBordo",[],C);
 					focus(C).
 					
 +!envia_ct : true <- envia_ct[artifact_id(Id)].
